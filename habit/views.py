@@ -24,6 +24,12 @@ class HabitCreateApiView(CreateAPIView):
     serializer_class = HabitSerializer
     permission_classes = (IsAuthenticated,)
 
+    def perform_create(self, serializer):
+        """ Делаем текущего пользователя 'Создателем' привычки. """
+        habit = serializer.save()
+        habit.user = self.request.user
+        habit.save()
+
 
 class HabitUpdateApiView(UpdateAPIView):
     queryset = Habit.objects.all()
