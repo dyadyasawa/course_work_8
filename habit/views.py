@@ -12,7 +12,7 @@ class HabitListApiView(ListAPIView):
     queryset = Habit.objects.all()
     serializer_class = HabitSerializer
     pagination_class = CustomPagination
-    permissions_classes = (IsOwner,)
+    permission_classes = (IsOwner,)
 
 
 class HabitIsPublishedListApiView(ListAPIView):
