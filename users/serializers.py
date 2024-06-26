@@ -1,21 +1,10 @@
 
-from rest_framework import serializers
+from rest_framework  import serializers   # ModelSerializer, SerializerMethodField
 
-from habit.models import Habit
-from habit.validators import NotCombinationValidator, TimeDurationValidator, CombinationValidator, AbsenceValidator, FrequencyValidator
+from users.models import User
 
 
-class HabitSerializer(serializers.ModelSerializer):
-    """ Сериализатор для модели Habit. """
-
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Habit
-        fields = '__all__'
-
-        validators = [
-            NotCombinationValidator("connection_habit", "reward"),
-            TimeDurationValidator("duration"),
-            CombinationValidator("connection_habit", "habit_is_pleasant"),
-            AbsenceValidator("habit_is_pleasant", "connection_habit", "reward"),
-            FrequencyValidator("number_of_executions")
-        ]
+        model = User
+        fields = "__all__"
