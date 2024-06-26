@@ -8,8 +8,8 @@ from config.settings import AUTH_USER_MODEL
 class Habit(models.Model):
 
     user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Создатель")
-    place = models.CharField(max_length=100, verbose_name="Место выполнения")
-    time = models.TimeField(default= timezone.now, blank=True, null=True, verbose_name="Время выполнения")
+    place = models.CharField(max_length=100, blank=True, null=True, verbose_name="Место выполнения")
+    time = models.TimeField(blank=True, null=True, verbose_name="Время выполнения")
     action = models.CharField(max_length=100, verbose_name="Действие")
     habit_is_pleasant = models.BooleanField(default=True, verbose_name="Признак приятной привычки")
     connection_habit = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True, verbose_name="Связанная привычка")
