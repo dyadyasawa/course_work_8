@@ -22,7 +22,7 @@ class HabitIsPublishedListApiView(ListAPIView):
 
 class HabitCreateApiView(CreateAPIView):
     serializer_class = HabitSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)  # Возможно строка не нужна, ведь IsAuthenticated присутствует в settings.py
 
     def perform_create(self, serializer):
         """ Делаем текущего пользователя 'Создателем' привычки. """
