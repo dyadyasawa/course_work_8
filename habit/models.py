@@ -13,8 +13,8 @@ class Habit(models.Model):
     action = models.CharField(max_length=100, verbose_name="Действие")
     habit_is_pleasant = models.BooleanField(default=True, verbose_name="Признак приятной привычки")
     connection_habit = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True, verbose_name="Связанная привычка")
-    number_of_executions = models.PositiveIntegerField(default=0, verbose_name="Количество выполнений в неделю")
-    duration = models.DurationField(default=timedelta(minutes=2), verbose_name="Продолжительность выполнения")
+    number_of_executions = models.PositiveIntegerField(default=1, verbose_name="Количество выполнений в неделю")
+    duration = models.DurationField(default=None, verbose_name="Продолжительность выполнения")
     is_published = models.BooleanField(default=True, verbose_name="Признак публичности")
     reward = models.CharField(max_length=100, verbose_name="Вознаграждение", blank=True, null=True)
 

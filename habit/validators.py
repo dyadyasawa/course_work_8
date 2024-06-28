@@ -18,13 +18,13 @@ class NotCombinationValidator:
 class TimeDurationValidator:
     """ Валидация по времени исполнения 'действия'(привычки). """
 
-    duration_time = timedelta(minutes=2)
+    duration_time = timedelta(seconds=120)
 
     def __init__(self, field_1):
         self.field_1 = field_1
 
     def __call__(self, habit):
-        if habit.get("duration") > self.duration_time:
+        if habit.get("duration") and habit.get("duration") > 120:  # self.duration_time:
             raise ValidationError('Действие выполняется не более 2-х минут')
 
 
@@ -66,5 +66,5 @@ class FrequencyValidator:
         self.field_1 = field_1
 
     def __call__(self, habit):
-        if not 0 < habit.get("number_of_executions") <= 7:
+        if habit.get("number_of_executions") > 7 or habit.get("number_of_executions") < 1:
             raise ValidationError("Привычку нельзя выполнять реже 1 и чаще 7 раз в неделю")
