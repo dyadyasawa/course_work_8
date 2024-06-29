@@ -12,7 +12,7 @@ from habit.serializers import HabitSerializer
 class HabitListApiView(ListAPIView):
     serializer_class = HabitSerializer
     pagination_class = CustomPagination
-    permission_classes = (AllowAny,)  # Возможно строка не нужна, ведь IsAuthenticated присутствует в settings.py
+    permission_classes = (IsAuthenticated,)  # Возможно строка не нужна, ведь IsAuthenticated присутствует в settings.py
 
     def get_queryset(self):
         user = self.request.user
@@ -20,11 +20,9 @@ class HabitListApiView(ListAPIView):
             return Habit.objects.all()
         elif user.is_authenticated:
             return Habit.objects.filter(creator=user)
-        return Habit.objects.all()
 
 
 class HabitIsPublishedListApiView(ListAPIView):
-    queryset = Habit.objects.filter(is_published=True)
     serializer_class = HabitSerializer
     permission_classes = (IsAuthenticated,)  # Возможно строка не нужна, ведь IsAuthenticated присутствует в settings.py
 
