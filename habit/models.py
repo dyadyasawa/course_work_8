@@ -7,7 +7,7 @@ from config.settings import AUTH_USER_MODEL
 
 class Habit(models.Model):
 
-    user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Создатель")
+    creator = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Создатель")
     place = models.CharField(max_length=100, blank=True, null=True, verbose_name="Место выполнения")
     time = models.TimeField(blank=True, null=True, verbose_name="Время выполнения")
     action = models.CharField(max_length=100, verbose_name="Действие")
@@ -19,7 +19,7 @@ class Habit(models.Model):
     reward = models.CharField(max_length=100, verbose_name="Вознаграждение", blank=True, null=True)
 
     def __str__(self):
-        return f"Действие: {self.action}(создатель {self.user})"
+        return f"Действие: {self.action}(создатель {self.creator})"
 
     class Meta:
         verbose_name = "Привычка"
