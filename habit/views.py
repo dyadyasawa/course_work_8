@@ -21,6 +21,9 @@ class HabitListApiView(ListAPIView):
         elif user.is_authenticated:
             return Habit.objects.filter(creator=user)
 
+    # if self.request.user.is_authenticated:
+
+
 
 class HabitIsPublishedListApiView(ListAPIView):
     serializer_class = HabitSerializer
