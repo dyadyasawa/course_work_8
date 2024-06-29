@@ -30,13 +30,14 @@ class HabitIsPublishedListApiView(ListAPIView):
     permission_classes = (IsAuthenticated,)  # Возможно строка не нужна, ведь IsAuthenticated присутствует в settings.py
 
     def get_queryset(self):
+        # user = self.request.user
+        # if user.is_superuser:
+        #     return Habit.objects.all()
+        # elif self.request.user.is_authenticated:
+        #     return Habit.objects.filter(is_published=True) | Habit.objects.filter(creator=user)
         user = self.request.user
-        if user.is_superuser:
-            return Habit.objects.all()
-        elif self.request.user.is_authenticated:
-            return Habit.objects.filter(is_published=True) | Habit.objects.filter(creator=user)
-
-        return Habit.objects.all()
+        if user.is_authenticated:
+            return Habit.objects.filter(is_published=True)
 
 
 class HabitCreateApiView(CreateAPIView):
@@ -51,11 +52,19 @@ class HabitCreateApiView(CreateAPIView):
 
 
 class HabitUpdateApiView(UpdateAPIView):
-    queryset = Habit.objects.all()
     serializer_class = HabitSerializer
-    permission_classes = (IsCreator,)
+    permission_classes = (IsAuthenticated, IsCreator,)
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_authenticated:
+            return Habit.objects.filter(creator=user)
 
 
 class HabitDestroyApiView(DestroyAPIView):
-    queryset = Habit.objects.all()
     permission_classes = (IsCreator,)
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_authenticated:
+            return Habit.objects.filter(creator=user)
