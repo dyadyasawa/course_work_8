@@ -20,7 +20,13 @@ def message_create(habit_id):
     action = habit.action
     tg_id = user.chat_id
 
-    message = f"Доброго времени суток {user}! Пришло время({time})! Необходимо выполнить({action}), в условленном месте({place})."
+    if habit.connection_habit:
+        message = f"Доброго времени суток {user}! Пришло время({time})! Необходимо выполнить({action}), в условленном месте({place})."
+    elif habit.reward:
+        message = f"Доброго времени суток {user}! Пришло время({time})! Необходимо выполнить({action}), в условленном месте({place})."
+    else:
+        message = f"Доброго времени суток {user}! Пришло время({time})! Необходимо выполнить({action}), в условленном месте({place})."
+
     response = send_tg(tg_id, message)
 
     return HttpResponse(response)
