@@ -1,4 +1,5 @@
 
+import requests
 from services import send_tg
 from celery import shared_task
 

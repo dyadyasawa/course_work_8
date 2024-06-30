@@ -5,12 +5,13 @@ from habit.models import Habit
 from django.http import HttpResponse
 
 
-
 def message_create(habit_id):
 
     habit = Habit.objects.get(id=habit_id)
 
     user = habit.creator
+    name = name_of_user(user.email)
+
     time = habit.time
     if habit.place is None:
         place = "Любое место"
@@ -20,16 +21,17 @@ def message_create(habit_id):
     action = habit.action
     tg_id = user.chat_id
 
-    if habit.connection_habit:
-        message = f"Доброго времени суток {user}! Пришло время({time})! Необходимо выполнить({action}), в условленном месте({place})."
+    if habit.connection_habit_id:
+        message = f"Доброго времени суток {name}! Пришло время({time})! Необходимо выполнить({action}), в условленном месте({place}), а за это можешь: {Habit.objects.get(id=habit.connection_habit_id).action}!"
     elif habit.reward:
-        message = f"Доброго времени суток {user}! Пришло время({time})! Необходимо выполнить({action}), в условленном месте({place})."
+        message = f"Доброго времени суток {name}! Пришло время({time})! Необходимо выполнить({action}), в условленном месте({place}), а за это можешь: {habit.reward}!"
     else:
-        message = f"Доброго времени суток {user}! Пришло время({time})! Необходимо выполнить({action}), в условленном месте({place})."
+        message = f"Доброго времени суток {name}! Пришло время({time})! Необходимо выполнить({action}), в условленном месте({place})."
 
     response = send_tg(tg_id, message)
 
     return HttpResponse(response)
+
 
 def send_tg(chat_id, message):
     params = {
@@ -37,3 +39,15 @@ def send_tg(chat_id, message):
         'chat_id': chat_id,
     }
     requests.get(f'{TELEGRAM_URL}{TELEGRAM_TOKEN}/sendMessage', params=params)
+
+
+def name_of_user(email):
+    """ Формируем имя из почтового адреса. Берем все, что до @. """
+    name = ""
+    for letter in email:
+        if letter != "@":
+            name += letter
+        else:
+            break
+    return name
+
