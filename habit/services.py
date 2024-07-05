@@ -6,6 +6,7 @@ from django.http import HttpResponse
 
 
 def message_create(habit_id):
+    """ Создаем сообщение. """
 
     habit = Habit.objects.get(id=habit_id)
 
@@ -19,7 +20,7 @@ def message_create(habit_id):
         place = habit.place
 
     action = habit.action
-    tg_id = user.chat_id
+    # tg_id = user.chat_id
 
     if habit.connection_habit_id:
         message = f"Доброго времени суток {name}! Пришло время({time})! Необходимо выполнить({action}), в условленном месте({place}), а за это можешь: {Habit.objects.get(id=habit.connection_habit_id).action}!"
@@ -28,9 +29,7 @@ def message_create(habit_id):
     else:
         message = f"Доброго времени суток {name}! Пришло время({time})! Необходимо выполнить({action}), в условленном месте({place})."
 
-    response = send_tg(tg_id, message)
-
-    return HttpResponse(response)
+    return message
 
 
 def send_tg(chat_id, message):
