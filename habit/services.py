@@ -2,7 +2,6 @@
 import requests
 from config.settings import TELEGRAM_TOKEN, TELEGRAM_URL
 from habit.models import Habit
-from django.http import HttpResponse
 
 
 def message_create(habit_id):
@@ -20,7 +19,6 @@ def message_create(habit_id):
         place = habit.place
 
     action = habit.action
-    # tg_id = user.chat_id
 
     if habit.connection_habit_id:
         message = f"Доброго времени суток {name}! Пришло время({time})! Необходимо выполнить({action}), в условленном месте({place}), а за это можешь: {Habit.objects.get(id=habit.connection_habit_id).action}!"
@@ -37,7 +35,7 @@ def send_tg(chat_id, message):
         'text': message,
         'chat_id': chat_id,
     }
-    requests.get(f'{TELEGRAM_URL}{TELEGRAM_TOKEN}/sendMessage', params=params)
+    requests.post(f'{TELEGRAM_URL}{TELEGRAM_TOKEN}/sendMessage', params=params)
 
 
 def name_of_user(email):
