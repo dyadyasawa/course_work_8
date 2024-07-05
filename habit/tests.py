@@ -36,6 +36,18 @@ class HabitTestCase(APITestCase):
             Habit.objects.all().count(), 1
         )
 
+    def test_habit_is_published_list(self):
+        """ Тестируем вывод списка публичных привычек. """
+
+        url = reverse("habit:habit_is_published_list")
+        response = self.client.get(url)
+        self.assertEqual(
+            response.status_code, status.HTTP_200_OK
+        )
+        self.assertEqual(
+            Habit.objects.all().count(), 1
+        )
+
     def test_habit_create(self):
         """ Тестируем создание привычки. """
 
