@@ -12,6 +12,9 @@ class HabitTestCase(APITestCase):
 
     def setUp(self):
         self.user = User.objects.create(email="ivan@example.com")
+        self.client = APIClient()
+        self.client.force_authenticate(user=self.user)
+
         self.habit = Habit.objects.create(
             creator=self.user,
             place="Рабочее место",
@@ -24,12 +27,13 @@ class HabitTestCase(APITestCase):
             is_published=True,
             reward="Взять с полки пирожок")
 
+
     def test_habit_list(self):
         """ Тестируем вывод списка привычек. """
 
         url = reverse("habit:habit_list")
         response = self.client.get(url)
-        self.assertEqual(
+        self.assertEquals(
             response.status_code, status.HTTP_200_OK
         )
         self.assertEqual(
@@ -41,7 +45,7 @@ class HabitTestCase(APITestCase):
 
         url = reverse("habit:habit_is_published_list")
         response = self.client.get(url)
-        self.assertEqual(
+        self.assertEquals(
             response.status_code, status.HTTP_200_OK
         )
         self.assertEqual(
@@ -53,18 +57,18 @@ class HabitTestCase(APITestCase):
 
         url = reverse("habit:habit_create")
         data = {
-            "creator": self.user,
-            "place": "Рабочее место",
-            "time": "10:00:00",
+            # "creator": self.user,
+            # "place": "Рабочее место",
+            # "time": "10:00:00",
             "action": "Ничего не делать",
-            "habit_is_pleasant": True,
-            "connection_habit": None,
-            "number_of_executions": 5,
-            "duration": timedelta(seconds=90),
-            "is_published": False,
-            "reward": None
+            # "habit_is_pleasant": True,
+            # "connection_habit": None,
+            # "number_of_executions": 5,
+            # "duration": timedelta(seconds=90),
+            # "is_published": False,
+            # "reward": None,
         }
-        response = self.client.post(url, data=data)
+        response = self.client.post(url, data)
         self.assertEqual(
             response.status_code, status.HTTP_201_CREATED
         )
@@ -91,7 +95,7 @@ class HabitTestCase(APITestCase):
     def test_habit_delete(self):
         """ Тестируем удаление привычки. """
 
-        url = reverse("habits:habit_delete", args=(self.habit.pk,))
+        url = reverse("habit:habit_delete", args=(self.habit.pk,))
         response = self.client.delete(url)
         self.assertEqual(
             response.status_code, status.HTTP_204_NO_CONTENT

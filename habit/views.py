@@ -1,6 +1,6 @@
 
 from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView, DestroyAPIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from habit.models import Habit
 from habit.paginations import CustomPagination
@@ -39,6 +39,7 @@ class HabitIsPublishedListApiView(ListAPIView):
 class HabitCreateApiView(CreateAPIView):
     serializer_class = HabitSerializer
     permission_classes = (IsAuthenticated,)  # Возможно строка не нужна, ведь IsAuthenticated присутствует в settings.py
+    # permission_classes = (AllowAny,)
 
     def perform_create(self, serializer):
         """ Делаем текущего пользователя 'Создателем' привычки. """
