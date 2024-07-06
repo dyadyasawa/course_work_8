@@ -1,5 +1,4 @@
-
-from rest_framework  import serializers   # ModelSerializer, SerializerMethodField
+from rest_framework import serializers  # ModelSerializer, SerializerMethodField
 
 from users.models import User
 

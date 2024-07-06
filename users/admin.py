@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from users.models import User
 
+
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     list_display = (
@@ -9,6 +10,4 @@ class UserAdmin(admin.ModelAdmin):
         "phone",
     )
     list_filter = ("email",)
-    search_fields = (
-        "email",
-    )
+    search_fields = ("email",)
