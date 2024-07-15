@@ -32,7 +32,7 @@ services:
     tty: true
     ports:
       - "8001:8000"
-    command: bash -c "python manage.py migrate && python manage.py csu && python manage.py runserver 0.0.0.0:8000"
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     depends_on:
       db:
         condition: service_healthy
